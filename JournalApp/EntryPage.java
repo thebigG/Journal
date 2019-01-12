@@ -9,7 +9,7 @@ import java.io.*;
 import java.util.ArrayList;
 
 /**
- *
+ * 
  * @author lorenzogomez
  */
 public class EntryPage implements Serializable

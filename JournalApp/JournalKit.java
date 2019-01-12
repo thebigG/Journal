@@ -78,12 +78,15 @@ import java.awt.peer.TextFieldPeer;
 import java.awt.peer.WindowPeer;
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.apache.commons.validator.routines.UrlValidator;
 /**
  * 
@@ -131,7 +134,23 @@ static Color DisabledColor  = Color.GRAY;	//used to signal that a component is n
 private Dimension ScreenSize;
 private Robot thisRobot;
 private static final int RightClick = InputEvent.BUTTON1_MASK;
+public static ImageIcon JournalLogo;
+public static URL  JournalLogoURL;
+public static URL WriteEntriesURL;
+public static ImageIcon AttachmentIcon;
 public static int WidthOfPhoto = 300; // This is used for the size of the pictures attached to a journal entry/inputpage 
+static
+{
+    setJournalLogo();
+    try {
+            System.out.println("***Initializing URL before method call**");
+        setJournalLogoURL();
+    } catch (MalformedURLException ex) {
+        Logger.getLogger(Journal.class.getName()).log(Level.SEVERE, null, ex);
+    }
+    setAttachmentIcon();
+    setWriteEntriesURL();
+}
 private JournalKit() throws AWTException
 {
 ScreenSize =  getDefaultToolkit().getScreenSize();	
@@ -378,6 +397,14 @@ public static JournalKit getInstance()
 {
 	return Instance;
 }
+private static void setAttachmentIcon()
+{
+AttachmentIcon = getAttachmentIcon();
+}
+private static void setWriteEntriesURL()
+{
+    WriteEntriesURL  = InputPage.class.getClassLoader().getResource("Images/WriteEntries.jpg");
+}
 public static String getDate()
 {
 	String[] array = Calendar.getInstance().getTime().toString().split(" ");
@@ -446,6 +473,15 @@ public static void updateCurrentLine()
 public static void updatePages()
 {
 NumberOfPages = Journal.getInstance().getPages().size();
+}
+public static void setJournalLogo()
+{
+JournalLogo  = JournalKit.getJournaLogoImage();
+}
+public static void setJournalLogoURL( ) throws MalformedURLException
+{
+    JournalLogoURL  = InputPage.class.getClassLoader().getResource("Images/JournalLogoV2.png");
+    System.out.println("***Initializing URL**");
 }
 public static void nextPage() 
 {
@@ -540,6 +576,7 @@ public static void update(Component c)
  */
 public static void TrashObjects()
 {
+    System.out.println("Calling TrashObjects");
 	System.gc();
 }
 public static Color getTransParentColor()

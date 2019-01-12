@@ -282,7 +282,7 @@ public InputPage(EntryPage entry, boolean date) throws IOException
 {
         this.Date = date;
         this.thisEntryPage = entry;
-         setTransparentJPanel();
+        setTransparentJPanel();
         setXDrawing();
 //        setFXThread();
 //        System.out.println("I bet the exeception happens right after this ;)");
@@ -922,7 +922,7 @@ public  String getEntryName()
 public void setAttachmentPanel()
 {
 	AttachmentPanel = new JPanel();
-        AttachmentPic = JournalKit.getAttachmentIcon();
+        AttachmentPic = JournalKit.AttachmentIcon;
 	AttachmentPanel.setBackground(Color.white);
 	AttachmentPanel.setBounds(JournalKit.Instance.MinimumSize.width+2, 0, JournalKit.getInstance().MaxSize.width -JournalKit.Instance.MinimumSize.width, JournalKit.getInstance().Height);
 	AttachmentIcon = new JLabel();
@@ -1204,7 +1204,8 @@ public void updatePageContent()
 }
 public void actionPerformed(ActionEvent e) 
 {
-        JournalKit.TrashObjects();
+        //NOTE: This was making Journal VERY slow.
+        //JournalKit.TrashObjects();
         updateCurrentNumberOfPhotos();
 	updatePageContent();
         updateCurrentLine();
@@ -1553,7 +1554,7 @@ public void setAttachmentOptions()
                             public void mouseClicked(MouseEvent e)
                             {
                                 System.out.println("file name method:" + PhotoAttachments.get(0).getFile().getName());
-                                int answer = JOptionPane.showConfirmDialog(AttachmentPanel, "Are you sure you want to delete this photo?\nThis CANNOT be undone", "Delete Attachment", JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE,JournalKit.getJournaLogoImage());
+                                int answer = JOptionPane.showConfirmDialog(AttachmentPanel, "Are you sure you want to delete this photo?\nThis CANNOT be undone", "Delete Attachment", JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE,JournalKit.JournalLogo);
                                 if(answer == JOptionPane.YES_OPTION)
                                 {
                                     PhotoAttachments.get(0).getPhoto().setVisible(false);
@@ -1569,13 +1570,13 @@ public void setAttachmentOptions()
         setURLOptionActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
-                    JOptionPane.showMessageDialog(AttachmentPanel, "Make sure that you are connected to the INTERNET to load a photo from a link", "Info", JOptionPane.INFORMATION_MESSAGE , JournalKit.getJournaLogoImage());
-                    String URL =   (String) JOptionPane.showInputDialog(AttachmentPanel, "Type the URL:", "URL", JOptionPane.QUESTION_MESSAGE, JournalKit.getJournaLogoImage(), null, null);
+                    JOptionPane.showMessageDialog(AttachmentPanel, "Make sure that you are connected to the INTERNET to load a photo from a link", "Info", JOptionPane.INFORMATION_MESSAGE , JournalKit.JournalLogo);
+                    String URL =   (String) JOptionPane.showInputDialog(AttachmentPanel, "Type the URL:", "URL", JOptionPane.QUESTION_MESSAGE, JournalKit.JournalLogo, null, null);
                     UrlValidator validator = new UrlValidator();
                     while((URL != null) && (!validator.isValid(URL)))
                     {
                         
-                        URL =   (String) JOptionPane.showInputDialog(AttachmentPanel, "Invalid URL!\nType the URL:", "URL", JOptionPane.QUESTION_MESSAGE, JournalKit.getJournaLogoImage(), null, null);
+                        URL =   (String) JOptionPane.showInputDialog(AttachmentPanel, "Invalid URL!\nType the URL:", "URL", JOptionPane.QUESTION_MESSAGE, JournalKit.JournalLogo, null, null);
                     }           if (URL != null) {
                         CroppedImage test = ImageLoader.fromUrl(URL);
                         HttpURLConnection connection = (HttpURLConnection) new URL(URL).openConnection();
@@ -1584,20 +1585,20 @@ public void setAttachmentOptions()
                         System.out.println("bufferd image: " + test.getBufferedImage());
                         while(test.getBufferedImage()== null)
                         {
-                            URL =   (String) JOptionPane.showInputDialog(AttachmentPanel, "The link is valid, but it doesn't conatin any photo\nType a link that DIRECTLY linked to a photo", "URL", JOptionPane.QUESTION_MESSAGE, JournalKit.getJournaLogoImage(), null, null);
+                            URL =   (String) JOptionPane.showInputDialog(AttachmentPanel, "The link is valid, but it doesn't conatin any photo\nType a link that DIRECTLY linked to a photo", "URL", JOptionPane.QUESTION_MESSAGE, JournalKit.JournalLogo, null, null);
                             test = ImageLoader.fromUrl(URL);
                         }        while(connection.getResponseCode() != 200 && JournalKit.isThisURLValid(URL) )
                         {
-                            URL =   (String)JOptionPane.showInputDialog(AttachmentPanel, "The link seems valid, but is not authorizing me to load the photo\nType a link that you have authorization of", "URL", JOptionPane.QUESTION_MESSAGE, JournalKit.getJournaLogoImage(), null, null);
+                            URL =   (String)JOptionPane.showInputDialog(AttachmentPanel, "The link seems valid, but is not authorizing me to load the photo\nType a link that you have authorization of", "URL", JOptionPane.QUESTION_MESSAGE, JournalKit.JournalLogo, null, null);
                         }        PhotoAttachments.add(0 ,new PhotoAttachment(URL, Path_Type.URL));
                         if(PhotoAttachments.get(0).getFile().length()==0)
                         {
-                            JOptionPane.showMessageDialog(AttachmentPanel, "An Error Occur\nMake sure that the link you are prividing is not being proetcted", "Info", JOptionPane.INFORMATION_MESSAGE , JournalKit.getJournaLogoImage());
+                            JOptionPane.showMessageDialog(AttachmentPanel, "An Error Occur\nMake sure that the link you are prividing is not being proetcted", "Info", JOptionPane.INFORMATION_MESSAGE , JournalKit.JournalLogo);
                             return;
                         }  
                         if(JournalKit.getFormat(URL) == Format_Type.UNKNOWN)
                     {
-                        JOptionPane.showMessageDialog(AttachmentPanel, "This file does not have an explicit extension on its name.\n This can cause errors. To avoid errors, include the extension of the file on the file name.", "Warning", JOptionPane.INFORMATION_MESSAGE , JournalKit.getJournaLogoImage());
+                        JOptionPane.showMessageDialog(AttachmentPanel, "This file does not have an explicit extension on its name.\n This can cause errors. To avoid errors, include the extension of the file on the file name.", "Warning", JOptionPane.INFORMATION_MESSAGE , JournalKit.JournalLogo);
                     }
                         AttachmentPanel.remove(AttachmentIcon);
                         AttachmentPanel.remove(AttachmentInstructionDescription);
@@ -1634,13 +1635,13 @@ public void setAttachmentOptions()
                     File f = getNativeBrowser().getSelectedFile();                   
                     if(JournalKit.getFormat(f.getAbsolutePath()) == Format_Type.UNKNOWN)
                     {
-                        JOptionPane.showMessageDialog(AttachmentPanel, "This file does not have an explicit extension on its name.\n This can cause errors. To avoid errors, include the extension of the file on the file name.", "Warning", JOptionPane.INFORMATION_MESSAGE , JournalKit.getJournaLogoImage());
+                        JOptionPane.showMessageDialog(AttachmentPanel, "This file does not have an explicit extension on its name.\n This can cause errors. To avoid errors, include the extension of the file on the file name.", "Warning", JOptionPane.INFORMATION_MESSAGE , JournalKit.JournalLogo);
                     }
                     PhotoAttachments.add(0 ,new PhotoAttachment(f.getAbsolutePath(), Path_Type.Local));
                     
                     if(PhotoAttachments.get(0).getFile().length()==0)
                     {
-                        JOptionPane.showMessageDialog(AttachmentPanel, "An Error Occur\nMake sure that the link you are prividing is not corrupted", "Info", JOptionPane.INFORMATION_MESSAGE , JournalKit.getJournaLogoImage());
+                        JOptionPane.showMessageDialog(AttachmentPanel, "An Error Occur\nMake sure that the link you are prividing is not corrupted", "Info", JOptionPane.INFORMATION_MESSAGE , JournalKit.JournalLogo);
                         PhotoAttachments.get(0).delete();
                         return;
                         
@@ -1655,7 +1656,7 @@ public void setAttachmentOptions()
                             public void mouseClicked(MouseEvent e)
                             {
                                 System.out.println("file name method:" + PhotoAttachments.get(0).getFile().getName());
-                                int answer = JOptionPane.showConfirmDialog(AttachmentPanel, "Are you sure you want to delete this photo?\nThis CANNOT be undone", "Delete Attachment", JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE,JournalKit.getJournaLogoImage());
+                                int answer = JOptionPane.showConfirmDialog(AttachmentPanel, "Are you sure you want to delete this photo?\nThis CANNOT be undone", "Delete Attachment", JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE,JournalKit.JournalLogo);
                                 if(answer == JOptionPane.YES_OPTION)
                                 {
                                     PhotoAttachments.get(0).getPhoto().setVisible(false);
@@ -1685,7 +1686,7 @@ public void setAttachmentOptions()
  }
 //public void trashObjects() throws InterruptedException
 //{
-//     
+//      
 //    FXpane.getScene();
 //    synchronized(FXpane)
 //        {
@@ -2383,7 +2384,7 @@ if(Journal.getInstance().getCurrentEntry().getEntryState() == EntryState.New)
 {
 while(JournalKit.DoesThisNameExist(JournalKit.EntriesPath, Journal.getInstance().getCurrentEntry().getEntryName() + ".entry") == JournaLIOLogic_Type.True_TheFileExists)
 {
-int answer = JOptionPane.showConfirmDialog(Journal.getInstance().getPage(CurrentPage), "An entry with this name already exists.\nWould you like to overite the contents of that Entry with the content from this one?", "This Entry Exists", JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE,JournalKit.getJournaLogoImage());    
+int answer = JOptionPane.showConfirmDialog(Journal.getInstance().getPage(CurrentPage), "An entry with this name already exists.\nWould you like to overite the contents of that Entry with the content from this one?", "This Entry Exists", JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE,JournalKit.JournalLogo);    
 if(answer == JOptionPane.YES_OPTION)
 {
 break;
@@ -2484,7 +2485,7 @@ public static void resetCurrentPage()
                     if(Journal.getInstance().getCurrentEntry().getEntryState() == EntryState.Modified)
                  {
                  int answer = 0;
-                 answer = JOptionPane.showConfirmDialog(Journal.getInstance().getPage(InputPage.CurrentPage), "This entry has been edited, would you like to save the changes made to this entry?", "Edited Entry", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, JournalKit.getJournaLogoImage());
+                 answer = JOptionPane.showConfirmDialog(Journal.getInstance().getPage(InputPage.CurrentPage), "This entry has been edited, would you like to save the changes made to this entry?", "Edited Entry", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, JournalKit.JournalLogo);
                 if(answer == JOptionPane.YES_OPTION)
                 {
                      try {
@@ -2518,7 +2519,7 @@ public static void resetCurrentPage()
 public static void saveNewEntryWarning()
 {
  int answer = 0;
-            answer = JOptionPane.showConfirmDialog(Journal.getInstance().getPage(InputPage.CurrentPage), "would you like to save the changes made to this entry?", "New Entry", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, JournalKit.getJournaLogoImage());
+            answer = JOptionPane.showConfirmDialog(Journal.getInstance().getPage(InputPage.CurrentPage), "would you like to save the changes made to this entry?", "New Entry", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, JournalKit.JournalLogo);
             if(answer == JOptionPane.YES_OPTION)
                 {
                      try {
@@ -2540,7 +2541,7 @@ public static void saveNewEntryWarning()
 public static void saveModifiedEntryWarning()
 {
 int answer = 0;
-                 answer = JOptionPane.showConfirmDialog(Journal.getInstance().getPage(InputPage.CurrentPage), "This entry has been edited, would you like to save the changes made to this entry?", "Edited Entry", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, JournalKit.getJournaLogoImage());
+                 answer = JOptionPane.showConfirmDialog(Journal.getInstance().getPage(InputPage.CurrentPage), "This entry has been edited, would you like to save the changes made to this entry?", "Edited Entry", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, JournalKit.JournalLogo);
                 if(answer == JOptionPane.YES_OPTION)
                 {
                      try {
@@ -2565,7 +2566,7 @@ public static void deleteThisEntry()
                 {
                     if(Journal.getInstance().getCurrentEntry().getEntryState() == EntryState.Saved || Journal.getInstance().getCurrentEntry().getEntryState() == EntryState.Modified )
                     {
-                int answer = JOptionPane.showConfirmDialog(DeleteThisEntrySideMenuItem.getParent(), "Are you sure you want to delete " +   "\""+ Journal.getInstance().getPage(InputPage.CurrentPage).getTitle().getText()+"\"" + " ?" + "\nThis action CANNOT be undone.", "Delete " + "\""+ Journal.getInstance().getPage(InputPage.CurrentPage).getTitle().getText()+"\"", JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE,JournalKit.getJournaLogoImage());
+                int answer = JOptionPane.showConfirmDialog(DeleteThisEntrySideMenuItem.getParent(), "Are you sure you want to delete " +   "\""+ Journal.getInstance().getPage(InputPage.CurrentPage).getTitle().getText()+"\"" + " ?" + "\nThis action CANNOT be undone.", "Delete " + "\""+ Journal.getInstance().getPage(InputPage.CurrentPage).getTitle().getText()+"\"", JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE,JournalKit.JournalLogo);
                                 if(answer == JOptionPane.YES_OPTION)
                                 {
                                     Entry.delete(Journal.getInstance().getCurrentEntry());

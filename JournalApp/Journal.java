@@ -41,6 +41,8 @@ import java.util.ArrayList;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.math.*;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 /**
@@ -48,7 +50,7 @@ import java.util.logging.Logger;
  *
  */
 
-public class Journal extends JFrame implements Input, WindowStatus
+public class Journal extends JFrame implements Input, WindowStatus, ActionListener
 {
 /**
 	 * 
@@ -74,6 +76,7 @@ private Entry CurrentSavedEntry;
 	 * @throws InvocationTargetException 
      * @throws java.awt.AWTException 
 	 */
+
 	public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException, InterruptedException, AWTException 
 	{ 
 		
@@ -136,6 +139,7 @@ private Entry CurrentSavedEntry;
 	private Journal() throws AWTException, IOException, FileNotFoundException, ClassNotFoundException 
 		{
                   JournalKit.createInstance();
+                  System.out.println("****Creating JournalKit Instance*****");
                   setCurrentaEntryPages();
 		//this.getRootPane().putClientProperty("apple.awt.brushMetalLook", Boolean.TRUE );
 		this.getRootPane().putClientProperty("window.shadow", Boolean.TRUE);
@@ -210,7 +214,7 @@ private Entry CurrentSavedEntry;
             this.getContentPane().add(getMainJournalPanel());
             this.getContentPane().setVisible(true);
             this.setVisible(true);
-	//setJournalTimer();
+//	setJournalTimer();
         
 		}
 public void setMainJournalPanel()
@@ -234,6 +238,7 @@ public JPanel getMainJournalPanel()
 {
     return MainJournalPanel;
 }
+
 public  void setPages() throws InvocationTargetException, InterruptedException, BadLocationException
 {
 	Pages = new ArrayList<InputPage>(1);
@@ -494,7 +499,7 @@ Pages.clear();
 }
 public void setJournalTimer()
 {
-//JournalTimer = new Timer(20,this);
+JournalTimer = new Timer(20,this);
 JournalTimer.start();
 }
 public void setCurrentaEntryPages()
@@ -513,8 +518,8 @@ public void actionPerformed(ActionEvent e)
 //      //  updateCurrentEntry();
             
        }
-        
-       // JournalKit.TrashObjects();
+//        System.out.println("Action Performed");
+        JournalKit.TrashObjects();
     }
 public void updateCurrentEntry()
 {

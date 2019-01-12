@@ -185,7 +185,7 @@ getThisTimer().start();
 }
 public void setWriteEntry() throws IOException
 {
-WriteEntry = new JLabel(new ImageIcon( ImageLoader.fromUrl(InputPage.class.getClassLoader().getResource("Images/WriteEntries.jpg")).getResizedToWidth(40).getBufferedImage()));
+WriteEntry = new JLabel(new ImageIcon( ImageLoader.fromUrl(JournalKit.WriteEntriesURL).getResizedToWidth(40).getBufferedImage()));
 WriteEntry.setSize(new Dimension(WriteEntry.getIcon().getIconWidth(),WriteEntry.getIcon().getIconHeight()));
 WriteEntry.setLocation(0,0);
 WriteEntry.setVisible(true);
@@ -405,7 +405,7 @@ public void updateThumbnails() throws IOException
     Thumbnails.clear();
  for(int i = 0;i<EntryFiles.size();i++)
  {
-     Thumbnails.add(new ImageIcon(ImageLoader.fromUrl((InputPage.class.getClassLoader().getResource("Images/JournalLogoV2.png"))).getResizedToSquare(50, .1).getBufferedImage()));
+     Thumbnails.add(new ImageIcon(ImageLoader.fromUrl(JournalKit.JournalLogoURL).getResizedToSquare(50, .1).getBufferedImage()));
  }   
 }
 public void setTimer()
@@ -478,7 +478,8 @@ public Timer getThisTimer()
 //            }
 //            }
 //        }
-        JournalKit.TrashObjects();
+        //NOTE: This was making Journal VERY slow.
+        //JournalKit.TrashObjects();
         
     }
 
@@ -732,7 +733,7 @@ public JLabel getHeart()
 
 public void setJournalIconView() throws IOException
 {
-    JournalIconView = new JLabel(new ImageIcon(ImageLoader.fromUrl((InputPage.class.getClassLoader().getResource("Images/JournalLogoV2.png"))).getResizedToSquare(80, .1).getBufferedImage()));
+    JournalIconView = new JLabel(new ImageIcon(ImageLoader.fromUrl(JournalKit.JournalLogoURL).getResizedToSquare(80, .1).getBufferedImage()));
    // JournalIconView.setText(getSelectedEntry().getEntryName());
     JournalIconView.setHorizontalTextPosition(JLabel.CENTER);
     JournalIconView.setVerticalTextPosition(JLabel.BOTTOM);
@@ -968,7 +969,7 @@ public void showCommands()
             + "To Hide Journal View:"+ "\"" +  CommandSymbolUnicode + "+L\"\n" 
             + "To delete Entry(while editing entry):" + "\"" +CommandSymbolUnicode + "+DELETE\"\n"
             + "To exit an Entry:"+"Press " + "\"ESC\"\n"
-            + "To save an Entry:" + "\"" + CommandSymbolUnicode + "+S\"\n","Shortcuts", JOptionPane.INFORMATION_MESSAGE, JournalKit.getJournaLogoImage());
+            + "To save an Entry:" + "\"" + CommandSymbolUnicode + "+S\"\n","Shortcuts", JOptionPane.INFORMATION_MESSAGE, JournalKit.JournalLogo);
                     
 }
 }

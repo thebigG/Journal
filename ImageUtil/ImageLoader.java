@@ -27,6 +27,7 @@ public class ImageLoader {
     /**
      * Load image from URL string
      * @param url URL of image
+     * @return 
      * @throws IOException If there is a problem loading the image from the URL
      */
     public static CroppedImage fromUrl(String url) throws IOException {
