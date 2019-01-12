@@ -1,6 +1,6 @@
 # Journal
 A Simple, lightweight and Private Journal
-<p>ChangeLog</p>
+# <p>ChangeLog</p>
 <p>
  -January, 2019: I hadn't realized that I was calling the garbage collector every 1 millisecond (I know bad idea). 
  This version is orders of maginitude more responsive than the older version. 
