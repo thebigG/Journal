@@ -9,4 +9,4 @@ A Simple, lightweight and Private Journal
  </p>
 
 # Compatibility
-I built this app entirely on (and as a target for) OS X. Yes if you run the Journal.jar file, it will run on linux and Windows; I have done this myself. However, it looks kind-of horrendous. In the foreseeable future I will fix this. Not sure when though.
+I built this app entirely on (and as a target for) OS X. Yes if you run the Journal.jar file, it will run on linux and Windows; I have done this myself. However, it looks kind-of horrendous on Windows and looses its sleekness when you run it on linux. In the foreseeable future I will fix this. Not sure when though. If you want to run at its best, as of right now, OS X is the ideal platform.
